@@ -1,7 +1,7 @@
 #$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 ENV["RAILS_ENV"] = "test"
 
-require "active_record_search_and_sort"
+require "sort_architect"
 
 ### Instantiates Rails
 require File.expand_path("../dummy_app/config/environment.rb",  __FILE__)

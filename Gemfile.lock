@@ -1,9 +1,8 @@
 PATH
   remote: .
   specs:
-    active_record_search_and_sort (0.1.0)
+    active_record_sort_architect (0.9.0)
       activerecord
-      activerecord-import
       railties
 
 GEM
@@ -53,8 +52,6 @@ GEM
     activerecord (6.0.3.3)
       activemodel (= 6.0.3.3)
       activesupport (= 6.0.3.3)
-    activerecord-import (1.0.6)
-      activerecord (>= 3.2)
     activestorage (6.0.3.3)
       actionpack (= 6.0.3.3)
       activejob (= 6.0.3.3)
@@ -95,7 +92,6 @@ GEM
     nio4r (2.5.4)
     nokogiri (1.10.10)
       mini_portile2 (~> 2.4.0)
-    pg (1.2.3)
     rack (2.2.3)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -134,6 +130,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    sqlite3 (1.4.2)
     thor (1.0.1)
     thread_safe (0.3.6)
     tzinfo (1.2.7)
@@ -148,12 +145,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  active_record_search_and_sort!
+  active_record_sort_architect!
   minitest
   minitest-reporters
-  pg
   rails
   rake
+  sqlite3
   warning
 
 BUNDLED WITH

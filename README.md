@@ -1,4 +1,4 @@
-# ActiveRecord Sort Architect (WIP)
+# ActiveRecord Sort Architect
 
 <a href="https://badge.fury.io/rb/active_record_sort_architect" target="_blank"><img height="21" style='border:0px;height:21px;' border='0' src="https://badge.fury.io/rb/active_record_sort_architect.svg" alt="Gem Version"></a>
 <a href='https://travis-ci.com/westonganger/active_record_sort_architect' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://api.travis-ci.org/westonganger/active_record_sort_architect.svg?branch=master' border='0' alt='Build Status' /></a>
@@ -40,15 +40,11 @@ end
 
 The models that have `SortArchitect` applied have the following methods available to your models:
 
-```ruby
-scope :default_order, ->(){ order(self.default_sort_order) }
-```
-
-You will need to define the following custom methods to each model:
+You will want to define a `default_sort_order` method to the to each model class:
 
 ```ruby
 def self.default_sort_order
-  "lower(#{self.table_name}.name) ASC"
+  "lower(#{self.table_name}.name) ASC" # for example
 end
 ```
 
@@ -60,7 +56,7 @@ You now have access to the following sorting methods:
 
 ```ruby
 ### Outputs default sort order
-Post.sort_order 
+Post.sort_order
 
 ### Output combined sort order based on params (if present) AND default sort order
 Post.sort_order(params[:sort], params[:direction]) 
@@ -73,18 +69,20 @@ Heres an example
 ###
 ### params[:sort] is the full sql column name, encouraged to use table names as well
 ### params[:direction] is either "asc" or "desc"
-
 posts = Post
   .all
-  .order(Post.sort_order(params[:sort], params[:direction]))
+  .sort_order(params[:sort], params[:direction])
 
 ### Using only the default sort order
 posts = Post
   .all
-  .order(Post.sort_order)
-```
+  .sort_order
 
-NOTE: Any models with order in the `default_scope` may cause issues with the sorting so be sure to use `.unscope(:order)` where applicable.
+### OR Override the default_sort_order
+posts = Post
+  .all
+  .sort_order(params[:sort], params[:direction], base_order: "lower(number) DESC")
+```
 
 # Key Models Provided & Additional Customizations
 
@@ -92,11 +90,11 @@ A key aspect of this library is its simplicity and small API. For major function
 
 I strongly encourage you to read the code for this library to understand how it works within your project so that you are capable of customizing the functionality later.
 
-- [SortOrderConcern](./lib/active_record_sort_architect/concerns/sort_order_concern.rb)
+- [SortOrderConcern](./lib/sort_architect/concerns/sort_order_concern.rb)
 
-# View Examples
+# Helper / View Examples
 
-We do not provide built in view templates because this is a major restriction to applications. Instead we provide simple copy-and-pasteable starter templates
+We do not provide built in helpers or view templates because this is a major restriction to applications. Instead we provide simple copy-and-pasteable starter templates
 
 Sort Helper:
 

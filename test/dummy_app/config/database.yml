@@ -1,12 +1,11 @@
 default: &default
-  adapter: postgresql
+  adapter: sqlite3
   encoding: unicode
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
-  database: active_record_search_and_sort_development
+  database: db/dev
 
 test:
   <<: *default
-  database: active_record_search_and_sort_test
+  database: db/test
