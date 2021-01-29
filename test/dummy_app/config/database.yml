@@ -4,8 +4,8 @@ default: &default
 
 development:
   <<: *default
-  database: db/dev
+  database: db/dev.sqlite3
 
 test:
   <<: *default
-  database: db/test
+  database: db/test.sqlite3

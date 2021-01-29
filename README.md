@@ -6,7 +6,6 @@
 
 Dead simple, fully customizable sorting pattern for ActiveRecord.
 
-
 # Installation
 
 ```ruby
@@ -14,8 +13,6 @@ gem 'active_sort_order'
 ```
 
 Then add `include ActiveSortOrder` to your ApplicationRecord or models.
-
-If you want to apply to all models You can create an initializer if the ApplicationRecord model doesnt exist.
 
 ```ruby
 ### Preferred
@@ -38,9 +35,13 @@ ActiveSupport.on_load(:active_record) do
 end
 ```
 
-The models that have `ActiveSortOrder` applied have the following methods available to your models:
+# Usage
 
-You will likely want to define a `base_sort_order` method to the to each model class:
+## Base Order
+
+You will likely want to define a `base_sort_order` class method to each model. 
+
+This will be utilized when not providing a `:base_sort_order` argument.
 
 ```ruby
 def self.base_sort_order
@@ -48,38 +49,42 @@ def self.base_sort_order
 end
 ```
 
-# Basic Usage
+## Sorting
 
-### Sorting
+This gem defines one scope on your models: `sort_order`
 
-You now have access to the following sorting methods:
+This method uses `reorder` so any previously defined `order` will be removed.
+
+In the below examples:
+
+ - `params[:sort]` is a String of the full SQL column name, feel free to use any SQL as required
+ - `params[:direction]` is a String, if nil/blank string value provided it will fallback to "ASC"
 
 ```ruby
-### Applies the classes base_sort_order if defined
+### Applies the classes base_sort_order (if defined)
 Post.all.sort_order
 
 ### Use custom base_sort_order
 Post.all.sort_order(base_sort_order: "lower(number) DESC")
 
-### Output combined sort order (if present) AND applies the classes base_sort_order
+### Output combined sort order (if present) AND applies the classes base_sort_order (if defined)
 Post.all.sort_order(params[:sort], params[:direction]) 
 
-### Output combined sort order (if present) AND applies a custom base_sort_order
-Post.all.sort_order(params[:sort], params[:direction], base_sort_order: "lower(number) DESC")
+### output combined sort order (if present) and applies a custom base_sort_order
+post.all.sort_order(params[:sort], params[:direction], base_sort_order: "lower(number) desc, lower(code) asc")
+
+### Skip the classes base_sort_order by providing false or nil
+Post.all.sort_order(params[:sort], params[:direction], base_sort_order: false)
+Post.all.sort_order(params[:sort], params[:direction], base_sort_order: nil)
 ```
 
-In the above examples:
-
- - `params[:sort]` is the full sql column name, you can use table names as well if desired
- - `params[:direction]` is either "asc" or "desc", case doesnt matter, falls back to "ASC" if no match
-
-# Key Models Provided & Additional Customizations
+## Additional Customizations
 
 This gem is just ONE concern with ONE scope. I strongly encourage you to read the code for this library to understand how it works within your project so that you are capable of customizing the functionality later. You can always copy the code directly into your project for deeper project-specific customizations.
 
 - [lib/active_sort_order/concerns/sort_order_concern.rb](./lib/active_sort_order/concerns/sort_order_concern.rb)
 
-# Helper / View Examples
+## Helper / View Examples
 
 We do not provide built in helpers or view templates because this is a major restriction to applications. Instead we provide simple copy-and-pasteable starter templates
 
@@ -89,6 +94,8 @@ We do not provide built in helpers or view templates because this is a major res
 module ApplicationHelper
 
   def sort_link(column, title = nil, opts = {})
+    column = column.to_s
+
     if title && title.is_a?(Hash)
       opts = title
       title = opts[:title]
@@ -97,26 +104,34 @@ module ApplicationHelper
     title ||= column.titleize
 
     if opts[:disabled]
-      title
+      return title
     else
-      direction = (column == params[:sort] && params[:direction] == "asc") ? "desc" : "asc"
+      if params[:direction].present? && params[:sort].present?
+        direction = (column == params[:sort] && params[:direction] == "asc") ? "desc" : "asc"
+      else
+        direction = "asc"
+      end
 
-      link_to title, params.to_unsafe_h.merge(sort: column, direction: direction)
+      return link_to(title, params.to_unsafe_h.merge(sort: column, direction: direction))
     end
   end
 
 end
 ```
 
-Then use it within you views like:
+Then use the link helper within your views like:
 
-```
+```erb
 <th>
   <%= sort_link :name %>
 </th>
 
 <th>
   <%= sort_link "companies.name", "Company Name" %>
+</th>
+
+<th>
+  <%= sort_link "companies.name", "Company Name", disabled: !@sort_enabled %>
 </th>
 ```
 

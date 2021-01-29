@@ -33,6 +33,15 @@ else
   ActiveRecord::Migrator.migrate File.expand_path("dummy_app/db/migrate/", __dir__)
 end
 
+[Post].each do |klass|
+  ### REGULAR SQL
+  #ActiveRecord::Base.connection.execute("TRUNCATE TABLE #{klass.table_name}")
+  
+  ### SQLITE
+  ActiveRecord::Base.connection.execute("DELETE FROM #{klass.table_name};")
+  ActiveRecord::Base.connection.execute("UPDATE `sqlite_sequence` SET `seq` = 0 WHERE `name` = '#{klass.table_name}';")
+end
+
 DATA = {}.with_indifferent_access
 
 DATA[:posts] = [
