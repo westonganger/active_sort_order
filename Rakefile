@@ -1,4 +1,4 @@
-require File.expand_path(File.dirname(__FILE__) + '/lib/sort_architect/version.rb')
+require File.expand_path(File.dirname(__FILE__) + '/lib/active_sort_order/version.rb')
 
 require "bundler/gem_tasks"
 require "rake/testtask"
@@ -12,7 +12,7 @@ end
 task default: [:test]
 
 task :console do
-  require 'sort_architect'
+  require 'active_sort_order'
 
   require 'test/dummy_app/app/models/post'
 

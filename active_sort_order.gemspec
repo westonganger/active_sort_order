@@ -1,14 +1,14 @@
-require_relative 'lib/sort_architect/version'
+require_relative 'lib/active_sort_order/version'
 
 Gem::Specification.new do |s|
-  s.name          = "active_record_sort_architect"
-  s.version       = SortArchitect::VERSION
+  s.name          = "active_sort_order"
+  s.version       = ActiveSortOrder::VERSION
   s.authors       = ["Weston Ganger"]
   s.email         = ["weston@westonganger.com"]
 
-  s.summary       = "Dead simple, fully customizable sorting pattern for your ActiveRecord models and associations."
+  s.summary       = "Dead simple, fully customizable sorting pattern for ActiveRecord."
   s.description   = s.summary
-  s.homepage      = "https://github.com/westonganger/active_record_sort_architect"
+  s.homepage      = "https://github.com/westonganger/active_sort_order"
   s.license       = "MIT"
 
   s.metadata["source_code_uri"] = s.homepage

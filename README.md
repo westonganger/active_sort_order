@@ -1,8 +1,8 @@
-# ActiveRecord Sort Architect
+# Active Sort Order
 
-<a href="https://badge.fury.io/rb/active_record_sort_architect" target="_blank"><img height="21" style='border:0px;height:21px;' border='0' src="https://badge.fury.io/rb/active_record_sort_architect.svg" alt="Gem Version"></a>
-<a href='https://travis-ci.com/westonganger/active_record_sort_architect' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://api.travis-ci.org/westonganger/active_record_sort_architect.svg?branch=master' border='0' alt='Build Status' /></a>
-<a href='https://rubygems.org/gems/active_record_sort_architect' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://ruby-gem-downloads-badge.herokuapp.com/active_record_sort_architect?label=rubygems&type=total&total_label=downloads&color=brightgreen' border='0' alt='RubyGems Downloads' /></a>
+<a href="https://badge.fury.io/rb/active_sort_order" target="_blank"><img height="21" style='border:0px;height:21px;' border='0' src="https://badge.fury.io/rb/active_sort_order.svg" alt="Gem Version"></a>
+<a href='https://travis-ci.com/westonganger/active_sort_order' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://api.travis-ci.org/westonganger/active_sort_order.svg?branch=master' border='0' alt='Build Status' /></a>
+<a href='https://rubygems.org/gems/active_sort_order' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://ruby-gem-downloads-badge.herokuapp.com/active_sort_order?label=rubygems&type=total&total_label=downloads&color=brightgreen' border='0' alt='RubyGems Downloads' /></a>
 
 Dead simple, fully customizable sorting pattern for ActiveRecord.
 
@@ -10,41 +10,41 @@ Dead simple, fully customizable sorting pattern for ActiveRecord.
 # Installation
 
 ```ruby
-gem 'active_record_sort_architect'
+gem 'active_sort_order'
 ```
 
-Then add `include SortArchitect` to your ApplicationRecord or models.
+Then add `include ActiveSortOrder` to your ApplicationRecord or models.
 
 If you want to apply to all models You can create an initializer if the ApplicationRecord model doesnt exist.
 
 ```ruby
 ### Preferred
 class ApplicationRecord < ActiveRecord::Base
-  include SortArchitect
+  include ActiveSortOrder
 end
 
 ### OR for individual models
 
 class Post < ActiveRecord::Base
-  include SortArchitect
+  include ActiveSortOrder
 end
 
 ### OR for all models without an ApplicationRecord model
 
-# config/initializers/active_record_sort_architect.rb
+# config/initializers/active_sort_order.rb
 ActiveSupport.on_load(:active_record) do
   ### Load for all ActiveRecord models
-  include SortArchitect
+  include ActiveSortOrder
 end
 ```
 
-The models that have `SortArchitect` applied have the following methods available to your models:
+The models that have `ActiveSortOrder` applied have the following methods available to your models:
 
-You will want to define a `default_sort_order` method to the to each model class:
+You will likely want to define a `base_sort_order` method to the to each model class:
 
 ```ruby
-def self.default_sort_order
-  "lower(#{self.table_name}.name) ASC" # for example
+def self.base_sort_order
+  "lower(#{table_name}.name) ASC, lower(#{table_name}.code) ASC" # for example
 end
 ```
 
@@ -55,50 +55,37 @@ end
 You now have access to the following sorting methods:
 
 ```ruby
-### Outputs default sort order
-Post.sort_order
+### Applies the classes base_sort_order if defined
+Post.all.sort_order
 
-### Output combined sort order based on params (if present) AND default sort order
-Post.sort_order(params[:sort], params[:direction]) 
+### Use custom base_sort_order
+Post.all.sort_order(base_sort_order: "lower(number) DESC")
+
+### Output combined sort order (if present) AND applies the classes base_sort_order
+Post.all.sort_order(params[:sort], params[:direction]) 
+
+### Output combined sort order (if present) AND applies a custom base_sort_order
+Post.all.sort_order(params[:sort], params[:direction], base_sort_order: "lower(number) DESC")
 ```
 
-Heres an example
+In the above examples:
 
-```ruby
-### Using params provided sort column and direction appended with the default sort order
-###
-### params[:sort] is the full sql column name, encouraged to use table names as well
-### params[:direction] is either "asc" or "desc"
-posts = Post
-  .all
-  .sort_order(params[:sort], params[:direction])
-
-### Using only the default sort order
-posts = Post
-  .all
-  .sort_order
-
-### OR Override the default_sort_order
-posts = Post
-  .all
-  .sort_order(params[:sort], params[:direction], base_order: "lower(number) DESC")
-```
+ - `params[:sort]` is the full sql column name, you can use table names as well if desired
+ - `params[:direction]` is either "asc" or "desc", case doesnt matter, falls back to "ASC" if no match
 
 # Key Models Provided & Additional Customizations
 
-A key aspect of this library is its simplicity and small API. For major functionality customizations we encourage you to first delete this gem and then copy this gems code directly into your repository.
+This gem is just ONE concern with ONE scope. I strongly encourage you to read the code for this library to understand how it works within your project so that you are capable of customizing the functionality later. You can always copy the code directly into your project for deeper project-specific customizations.
 
-I strongly encourage you to read the code for this library to understand how it works within your project so that you are capable of customizing the functionality later.
-
-- [SortOrderConcern](./lib/sort_architect/concerns/sort_order_concern.rb)
+- [SortOrderConcern](./lib/active_sort_order/concerns/sort_order_concern.rb)
 
 # Helper / View Examples
 
 We do not provide built in helpers or view templates because this is a major restriction to applications. Instead we provide simple copy-and-pasteable starter templates
 
-Sort Helper:
-
 ```ruby
+### app/helpers/application_helper.rb
+
 module ApplicationHelper
 
   def sort_link(column, title = nil, opts = {})
@@ -121,10 +108,16 @@ module ApplicationHelper
 end
 ```
 
-```slim
-= sort_link :name
+Then use it within you views like:
 
-= sort_link "companies.name", "Company Name"
+```
+<th>
+  <%= sort_link :name %>
+</th>
+
+<th>
+  <%= sort_link "companies.name", "Company Name" %>
+</th>
 ```
 
 # Credits
