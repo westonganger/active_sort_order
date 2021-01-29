@@ -77,7 +77,7 @@ In the above examples:
 
 This gem is just ONE concern with ONE scope. I strongly encourage you to read the code for this library to understand how it works within your project so that you are capable of customizing the functionality later. You can always copy the code directly into your project for deeper project-specific customizations.
 
-- [SortOrderConcern](./lib/active_sort_order/concerns/sort_order_concern.rb)
+- [lib/active_sort_order/concerns/sort_order_concern.rb](./lib/active_sort_order/concerns/sort_order_concern.rb)
 
 # Helper / View Examples
 
