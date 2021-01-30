@@ -2,10 +2,10 @@ require "test_helper"
 
 class ActiveSortOrderTest < ActiveSupport::TestCase
 
-  def setup
+  setup do
   end
 
-  def teardown
+  teardown do
   end
   
   def test_sort_str_errors
@@ -105,7 +105,9 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
     end
   end
 
-  def test_base_sort_order_errors
+  def test_argument_base_sort_order_errors
+    assert_not Post.respond_to?(:base_sort_order)
+
     valid = [
       nil,
       false,
@@ -129,8 +131,13 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
         Post.sort_order(base_sort_order: v).limit(1)
       end
     end
+  end
 
-    ### INVALID BASE_SORT_ORDER CLASS
+  def test_class_method_base_sort_order_errors
+    klass = PostWithVolatileBaseOrder
+
+    assert klass.respond_to?(:base_sort_order)
+
     valid = [
       nil,
       false,
@@ -140,15 +147,22 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
 
     valid.each do |v|
       silence_warnings do
-        PostWithVolatileBaseOrder.define_method :base_sort_order do
+        klass.define_singleton_method :base_sort_order do
           v
         end
       end
 
-      PostWithVolatileBaseOrder.sort_order(base_sort_order: v).limit(1)
+      if v.nil?
+        assert_nil klass.base_sort_order
+      else
+        assert_equal v, klass.base_sort_order
+      end
+
+      klass.sort_order.limit(1)
     end
 
     invalid = [
+      true,
       :foobar,
       [],
       {},
@@ -157,13 +171,19 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
 
     invalid.each do |v|
       silence_warnings do
-        PostWithVolatileBaseOrder.define_method :base_sort_order do
+        klass.define_singleton_method :base_sort_order do
           v
         end
       end
 
+      if v.nil?
+        assert_nil klass.base_sort_order
+      else
+        assert_equal v, klass.base_sort_order
+      end
+
       assert_raise ArgumentError do
-        PostWithVolatileBaseOrder.sort_order(base_sort_order: v).limit(1)
+        klass.sort_order.limit(1)
       end
     end
   end

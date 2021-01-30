@@ -14,7 +14,11 @@ task default: [:test]
 task :console do
   require 'active_sort_order'
 
-  require 'test/dummy_app/app/models/post'
+  require_relative 'test/dummy_app/app/models/application_record.rb'
+  require_relative 'test/dummy_app/app/models/post.rb'
+  Dir.glob("test/dummy_app/app/models/*.rb").each do |f|
+    require_relative(f)
+  end
 
   require 'irb'
   binding.irb

@@ -2,10 +2,10 @@ require "test_helper"
 
 class ActiveSortOrderTest < ActiveSupport::TestCase
 
-  def setup
+  setup do
   end
 
-  def teardown
+  teardown do
   end
 
   def test_exposes_main_module
