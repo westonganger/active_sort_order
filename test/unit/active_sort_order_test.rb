@@ -16,6 +16,14 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
     assert ActiveSortOrder::VERSION
   end
 
+  def test_base_sort_order_default_value
+    klass = PostWithBaseOrderA
+
+    assert PostWithBaseOrderA.unscoped.sort_order.to_sql.include?("ORDER BY #{klass.base_sort_order}")
+
+    assert PostWithBaseOrderA.unscoped.sort_order(base_sort_order: true).to_sql.include?("ORDER BY #{klass.base_sort_order}")
+  end
+
   def test_class_base_sort_order_only
     assert_equal Post.all.count, DATA[:posts].count
 

@@ -4,7 +4,7 @@ module ActiveSortOrder
 
     included do
       
-      scope :sort_order, ->(sort_col_sql = nil, sort_direction_sql = nil, base_sort_order: nil){
+      scope :sort_order, ->(sort_col_sql = nil, sort_direction_sql = nil, base_sort_order: true){
         if [String, Symbol, NilClass].exclude?(sort_col_sql.class)
           raise ArgumentError.new("Invalid first argument `sort_col_sql`, expecting a a String or Symbol")
         end
@@ -45,13 +45,15 @@ module ActiveSortOrder
         end
         
         ### BASE SORT ORDER HANDLING
-        if base_sort_order.nil?
+        if base_sort_order == true
           if self.klass.respond_to?(:base_sort_order)
             base_sort_order = self.klass.base_sort_order
 
             if [String, NilClass, FalseClass].exclude?(base_sort_order.class)
               raise ArgumentError.new("Invalid value returned from class method `base_sort_order`")
             end
+          else
+            base_sort_order = nil
           end
         elsif base_sort_order && !base_sort_order.is_a?(String)
           raise ArgumentError.new("Invalid argument provided for :base_sort_order")

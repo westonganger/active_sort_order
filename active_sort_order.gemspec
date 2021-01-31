@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.authors       = ["Weston Ganger"]
   s.email         = ["weston@westonganger.com"]
 
-  s.summary       = "Dead simple, fully customizable sorting pattern for ActiveRecord."
+  s.summary       = "The \"easy-peasy\" dynamic sorting pattern for ActiveRecord that your Rails apps deserve."
   s.description   = s.summary
   s.homepage      = "https://github.com/westonganger/active_sort_order"
   s.license       = "MIT"

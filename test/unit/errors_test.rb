@@ -110,6 +110,7 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
 
     valid = [
       nil,
+      true,
       false,
       "",
       "foobar",
