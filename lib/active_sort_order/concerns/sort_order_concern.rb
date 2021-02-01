@@ -46,8 +46,8 @@ module ActiveSortOrder
         
         ### BASE SORT ORDER HANDLING
         if base_sort_order == true
-          if self.klass.respond_to?(:base_sort_order)
-            base_sort_order = self.klass.base_sort_order
+          if self.respond_to?(:base_sort_order)
+            base_sort_order = self.base_sort_order
 
             if [String, NilClass, FalseClass].exclude?(base_sort_order.class)
               raise ArgumentError.new("Invalid value returned from class method `base_sort_order`")

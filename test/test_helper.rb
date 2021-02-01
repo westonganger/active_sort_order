@@ -3,6 +3,16 @@ ENV["RAILS_ENV"] = "test"
 
 require "active_sort_order"
 
+begin
+  require 'warning'
+
+  Warning.ignore(
+    %r{mail/parsers/address_lists_parser}, ### Hide mail gem warnings
+  )
+rescue LoadError
+  # Do nothing
+end
+
 ### Instantiates Rails
 require File.expand_path("../dummy_app/config/environment.rb",  __FILE__)
 
@@ -34,12 +44,12 @@ else
 end
 
 [Post].each do |klass|
-  ### REGULAR SQL
-  #ActiveRecord::Base.connection.execute("TRUNCATE TABLE #{klass.table_name}")
-  
-  ### SQLITE
-  ActiveRecord::Base.connection.execute("DELETE FROM #{klass.table_name};")
-  ActiveRecord::Base.connection.execute("UPDATE `sqlite_sequence` SET `seq` = 0 WHERE `name` = '#{klass.table_name}';")
+  if defined?(SQLite3)
+    ActiveRecord::Base.connection.execute("DELETE FROM #{klass.table_name};")
+    ActiveRecord::Base.connection.execute("UPDATE `sqlite_sequence` SET `seq` = 0 WHERE `name` = '#{klass.table_name}';")
+  else
+    ActiveRecord::Base.connection.execute("TRUNCATE TABLE #{klass.table_name}")
+  end
 end
 
 DATA = {}.with_indifferent_access

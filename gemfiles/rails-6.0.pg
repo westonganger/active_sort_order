@@ -1,0 +1,10 @@
+source "https://rubygems.org"
+
+gemspec path: "../"
+
+gem "rake"
+gem "minitest"
+gem 'minitest-reporters'
+gem 'rails', '~> 6.0.3'
+gem 'pg'
+gem 'warning'

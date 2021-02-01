@@ -29,6 +29,10 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
       Object.new,
     ]
 
+    if RUBY_VERSION.to_f >= 3.0
+      invalid << {}
+    end
+
     invalid.each do |v|
       assert_raise ArgumentError do
         Post.sort_order(v, :asc).limit(1)
@@ -41,16 +45,18 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
 
     ### TEST UNIQUE CASES
 
-    ### HASH - this is allowed because its treated as keyword arguments
-    Post.sort_order({}).limit(1)
+    if RUBY_VERSION.to_f < 3.0
+      ### HASH - this is allowed because its treated as keyword arguments
+      Post.sort_order({}).limit(1)
 
-    assert_raise do
-      Post.sort_order({}, :desc).limit(1)
+      assert_raise do
+        Post.sort_order({}, :desc).limit(1)
+      end
     end
   end
 
   def test_sort_direction_errors
-    valid_directions = [
+    valid = [
       "ASC",
       "DESC",
       "ASC NULLS FIRST",
@@ -67,7 +73,7 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
       "ASC\tNULLS\tFirst",
     ].freeze
 
-    valid_directions.each do |direction|
+    valid.each do |direction|
       PostWithBaseOrderA.sort_order("x", direction).limit(1)
 
       if direction
@@ -81,15 +87,19 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
       end
     end
 
-    bad_directions = [
+    invalid = [
       false,
       true,
       Object.new,
       [],
       'ASCC',
-    ].freeze
+    ]
 
-    bad_directions.each do |direction|
+    if RUBY_VERSION.to_f >= 3.0
+      invalid << {}
+    end
+
+    invalid.each do |direction|
       assert_raise ArgumentError do
         PostWithBaseOrderA.sort_order("foobar", direction).limit(1)
       end
@@ -97,11 +107,13 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
 
     ### TEST UNIQUE CASES
 
-    ### HASH - this is allowed because its treated as keyword arguments
-    Post.sort_order("foobar", {}).limit(1).to_sql.include?("foobar ASC")
+    if RUBY_VERSION.to_f < 3.0
+      ### HASH - this is allowed because its treated as keyword arguments
+      Post.sort_order("foobar", {}).limit(1).to_sql.include?("foobar ASC")
 
-    assert_raise do
-      Post.sort_order("foobar", {}, {}).limit(1)
+      assert_raise do
+        Post.sort_order("foobar", {}, {}).limit(1)
+      end
     end
   end
 

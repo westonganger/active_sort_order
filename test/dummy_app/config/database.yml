@@ -1,11 +1,20 @@
 default: &default
+<% if defined?(SQLite3) %>
   adapter: sqlite3
-  encoding: unicode
+  database: db/test.sqlite3
+
+<% elsif defined?(Mysql2) %>
+  adapter: mysql2
+  database: active_sort_order_test
+
+<% elsif defined?(PG) %>
+  adapter: postgresql
+  database: active_sort_order_test
+
+<% end %>
 
 development:
   <<: *default
-  database: db/dev.sqlite3
 
 test:
   <<: *default
-  database: db/test.sqlite3

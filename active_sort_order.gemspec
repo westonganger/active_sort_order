@@ -18,8 +18,5 @@ Gem::Specification.new do |s|
   s.test_files  = Dir.glob("{test/**/*}")
   s.require_path = 'lib'
 
-  s.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
-
-  s.add_runtime_dependency "activerecord"
-  s.add_runtime_dependency "railties"
+  s.add_runtime_dependency "activerecord", '>= 5'
 end

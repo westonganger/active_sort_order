@@ -1,10 +1,5 @@
 require File.expand_path('../boot', __FILE__)
 
-require 'warning'
-Warning.ignore(
-  %r{mail/parsers/address_lists_parser}, ### Hide mail gem warnings
-)
-
 require 'rails/all'
 
 Bundler.require
