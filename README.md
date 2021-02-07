@@ -4,9 +4,7 @@
 <a href='https://github.com/westonganger/active_sort_order/actions' target='_blank'><img src="https://github.com/westonganger/active_sort_order/workflows/Tests/badge.svg" style="max-width:100%;" height='21' style='border:0px;height:21px;' border='0' alt="CI Status"></a>
 <a href='https://rubygems.org/gems/active_sort_order' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://ruby-gem-downloads-badge.herokuapp.com/active_sort_order?label=rubygems&type=total&total_label=downloads&color=brightgreen' border='0' alt='RubyGems Downloads' /></a>
 
-The "easy-peasy" dynamic sorting pattern for ActiveRecord that your Rails apps deserve.
-
-Helps with creating combined SQL order strings and applying it using ActiveRecord's `reorder` method. Useful for Rails controllers with large data, pagination, etc.
+The "easy-peasy" dynamic sorting pattern for ActiveRecord that your Rails apps deserve. Useful for Rails controllers with large data, pagination, etc.
 
 Features:
 
