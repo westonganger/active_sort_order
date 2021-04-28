@@ -75,7 +75,7 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
 
     ### NIL & FALSE
     [nil, false].each do |v|
-      sorted = PostWithBaseOrderA.order(a: :desc).sort_order(base_sort_order: v)
+      sorted = PostWithBaseOrderA.order(id: :asc).sort_order(base_sort_order: v)
 
       sorted.each_with_index do |item, i|
         assert_equal expected[i].id, item.id

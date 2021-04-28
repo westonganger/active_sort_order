@@ -67,9 +67,13 @@ module ActiveSortOrder
           end
         end
 
-        sanitized_str = sql_str.blank? ? nil : Arel.sql(sanitize_sql_for_order(sql_str))
+        if sql_str.blank?
+          next self.where(nil)
+        else
+          sanitized_str = Arel.sql(sanitize_sql_for_order(sql_str))
 
-        next self.reorder(sanitized_str)
+          next self.reorder(sanitized_str)
+        end
       }
 
     end
