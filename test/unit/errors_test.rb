@@ -15,6 +15,8 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
       :foo,
       nil,
       "",
+      [],
+      [:foo],
     ]
 
     valid.each do |v|
@@ -25,7 +27,6 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
     invalid = [
       true,
       false,
-      [],
       Object.new,
     ]
 

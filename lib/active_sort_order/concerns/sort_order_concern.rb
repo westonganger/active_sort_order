@@ -5,13 +5,19 @@ module ActiveSortOrder
     included do
       
       scope :sort_order, ->(sort_col_sql = nil, sort_direction_sql = nil, base_sort_order: true){
-        if sort_col_sql.present?
-          if sort_col_sql.is_a?(Array)
-            sort_col_sql = sort_col_sql.map{|x| x.to_s }
-          else
-            sort_col_sql = sort_col_sql.to_s
-          end
+        if !sort_col_sql.is_a?(Array)
+          sort_col_sql = [sort_col_sql].compact
+        end
 
+        sort_col_sql.each_with_index do |x, i|
+          if [String, Symbol].exclude?(x.class)
+            raise ArgumentError.new("Invalid first argument `sort_col_sql`, expecting a String or Symbol or Array")
+          else
+            sort_col_sql[i] = x.to_s
+          end
+        end
+
+        if sort_col_sql.present?
           ### SORT DIRECTION HANDLING
           if sort_direction_sql.is_a?(Symbol)
             sort_direction_sql = sort_direction_sql.to_s.gsub('_', ' ')
@@ -39,10 +45,6 @@ module ActiveSortOrder
             if !valid_directions.include?(sort_direction_sql.upcase)
               raise ArgumentError.new("Invalid second argument `sort_direction_sql`: #{orig_direction_sql}")
             end
-          end
-
-          if !sort_col_sql.is_a?(Array)
-            sort_col_sql = [sort_col_sql]
           end
 
           sql_str = sort_col_sql.map{|x| "#{x} #{sort_direction_sql}" }.join(", ")
