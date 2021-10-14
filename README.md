@@ -36,8 +36,12 @@ In the below examples we are within a controller and are using the params as our
 ```ruby
 # app/controllers/posts_controller.rb
 
-if params[:sort] == "number_str"
+case params[:sort]
+when "number_str"
   sort_col_sql = "CAST(posts.number_str AS int)"
+when "user"
+  ### To sort on multiple fields pass in an Array
+  sort_col_sql = ["users.first_name", "users.last_name"] 
 else
   sort_col_sql = params[:sort]
 end
@@ -48,6 +52,8 @@ Post.all.sort_order(sort_col_sql, params[:direction], base_sort_order: "lower(nu
 ### Output combined sort order (if present) AND applies the classes base_sort_order (if defined)
 Post.all.sort_order(sort_col_sql, params[:direction]) 
 ```
+
+## Sorting on multiple columns
 
 ##### Method Definition:
 

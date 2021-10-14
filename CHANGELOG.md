@@ -2,7 +2,7 @@ CHANGELOG
 ---------
 
 - **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.2...master)**
-  * Nothing yet
+  * Allow ability to sort on multiple fields
 
 - **v0.9.2 - Apr 28, 2021 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.1...v0.9.2)**
   * Fix deprecation warning in Rails 6.1 for `reorder(nil)`

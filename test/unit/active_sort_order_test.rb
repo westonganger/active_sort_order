@@ -121,4 +121,24 @@ class ActiveSortOrderTest < ActiveSupport::TestCase
     end
   end
 
+  def test_sort_on_multiple_fields
+    assert_equal Post.all.count, DATA[:posts].count
+
+    expected = DATA[:posts].sort_by{|item| [item.b, item.a] }
+
+    sorted = PostWithBaseOrderA.all.sort_order([:b, :a], :asc)
+
+    sorted.each_with_index do |item, i|
+      assert_equal expected[i].id, item.id
+    end
+
+    expected = DATA[:posts].sort_by{|item| [item.b, item.a] }.reverse
+
+    sorted = PostWithBaseOrderA.all.sort_order([:b, :a], :desc)
+
+    sorted.each_with_index do |item, i|
+      assert_equal expected[i].id, item.id
+    end
+  end
+
 end

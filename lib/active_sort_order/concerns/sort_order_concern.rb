@@ -5,12 +5,12 @@ module ActiveSortOrder
     included do
       
       scope :sort_order, ->(sort_col_sql = nil, sort_direction_sql = nil, base_sort_order: true){
-        if [String, Symbol, NilClass].exclude?(sort_col_sql.class)
-          raise ArgumentError.new("Invalid first argument `sort_col_sql`, expecting a a String or Symbol")
-        end
-
         if sort_col_sql.present?
-          sort_col_sql = sort_col_sql.to_s
+          if sort_col_sql.is_a?(Array)
+            sort_col_sql = sort_col_sql.map{|x| x.to_s }
+          else
+            sort_col_sql = sort_col_sql.to_s
+          end
 
           ### SORT DIRECTION HANDLING
           if sort_direction_sql.is_a?(Symbol)
@@ -20,7 +20,7 @@ module ActiveSortOrder
           if sort_direction_sql.nil? || (sort_direction_sql.is_a?(String) && sort_direction_sql == "")
             sort_direction_sql = "ASC"
           elsif !sort_direction_sql.is_a?(String)
-            raise ArgumentError.new("Invalid second argument `sort_direction_sql`, expecting a a String or Symbol")
+            raise ArgumentError.new("Invalid second argument `sort_direction_sql`, expecting a String or Symbol")
           else
             valid_directions = [
               "ASC",
@@ -41,7 +41,11 @@ module ActiveSortOrder
             end
           end
 
-          sql_str = "#{sort_col_sql} #{sort_direction_sql}"
+          if !sort_col_sql.is_a?(Array)
+            sort_col_sql = [sort_col_sql]
+          end
+
+          sql_str = sort_col_sql.map{|x| "#{x} #{sort_direction_sql}" }.join(", ")
         end
         
         ### BASE SORT ORDER HANDLING
