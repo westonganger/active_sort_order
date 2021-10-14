@@ -1,7 +1,10 @@
 CHANGELOG
 ---------
 
-- **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.2...master)**
+- **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.3...master)**
+  * Nothing yet
+
+- **v0.9.3 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.2...v0.9.3)**
   * Allow ability to sort on multiple fields
 
 - **v0.9.2 - Apr 28, 2021 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.1...v0.9.2)**
