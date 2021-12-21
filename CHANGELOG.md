@@ -1,7 +1,10 @@
 CHANGELOG
 ---------
 
-- **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.3...master)**
+- **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.4...master)**
+  * Nothing yet
+
+- **v0.9.4 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.3...v0.9.4)**
   * Improve error handling for sort_col_sql argument
 
 - **v0.9.3 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.2...v0.9.3)**
