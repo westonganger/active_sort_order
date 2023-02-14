@@ -1,13 +1,16 @@
 CHANGELOG
 ---------
 
-- **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.4...master)**
+- **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.5...master)**
+  * Nothing yet
+
+- **v0.9.5 - Feb 13, 2023 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.4...v0.9.5)**
   * [#1](https://github.com/westonganger/active_sort_order/pull/1) - Utilize active_record lazy loading
 
-- **v0.9.4 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.3...v0.9.4)**
+- **v0.9.4 - Dec 20, 2021 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.3...v0.9.4)**
   * Improve error handling for sort_col_sql argument
 
-- **v0.9.3 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.2...v0.9.3)**
+- **v0.9.3 - Oct 13, 2021 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.2...v0.9.3)**
   * Allow ability to sort on multiple fields
 
 - **v0.9.2 - Apr 28, 2021 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.1...v0.9.2)**
