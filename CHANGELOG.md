@@ -2,7 +2,7 @@ CHANGELOG
 ---------
 
 - **Unreleased - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.4...master)**
-  * Nothing yet
+  * [#1](https://github.com/westonganger/active_sort_order/pull/1) - Utilize active_record lazy loading
 
 - **v0.9.4 - [View Diff](https://github.com/westonganger/active_sort_order/compare/v0.9.3...v0.9.4)**
   * Improve error handling for sort_col_sql argument
