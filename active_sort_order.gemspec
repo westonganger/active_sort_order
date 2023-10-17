@@ -18,6 +18,4 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   s.add_runtime_dependency "activerecord", '>= 5'
-
-  s.add_development_dependency 'appraisal'
 end
