@@ -1,8 +1,8 @@
 # Active Sort Order
 
 <a href="https://badge.fury.io/rb/active_sort_order" target="_blank"><img height="21" style='border:0px;height:21px;' border='0' src="https://badge.fury.io/rb/active_sort_order.svg" alt="Gem Version"></a>
-<a href='https://github.com/westonganger/active_sort_order/actions' target='_blank'><img src="https://github.com/westonganger/active_sort_order/workflows/Tests/badge.svg" style="max-width:100%;" height='21' style='border:0px;height:21px;' border='0' alt="CI Status"></a>
-<a href='https://rubygems.org/gems/active_sort_order' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://ruby-gem-downloads-badge.herokuapp.com/active_sort_order?label=rubygems&type=total&total_label=downloads&color=brightgreen' border='0' alt='RubyGems Downloads' /></a>
+<a href='https://github.com/westonganger/active_sort_order/actions' target='_blank'><img src="https://github.com/westonganger/active_sort_order/actions/workflows/test.yml/badge.svg?branch=master" style="max-width:100%;" height='21' style='border:0px;height:21px;' border='0' alt="CI Status"></a>
+<a href='https://rubygems.org/gems/active_sort_order' target='_blank'><img height='21' style='border:0px;height:21px;' src='https://img.shields.io/gem/dt/active_sort_order?color=brightgreen&label=Rubygems%20Downloads' border='0' alt='RubyGems Downloads' /></a>
 
 The "easy-peasy" dynamic sorting pattern for ActiveRecord that your Rails apps deserve. Useful for Rails controllers with large data, pagination, etc.
 
@@ -41,7 +41,7 @@ when "number_str"
   sort_col_sql = "CAST(posts.number_str AS int)"
 when "user"
   ### To sort on multiple fields pass in an Array
-  sort_col_sql = ["users.first_name", "users.last_name"] 
+  sort_col_sql = ["users.first_name", "users.last_name"]
 else
   sort_col_sql = params[:sort]
 end
@@ -50,7 +50,7 @@ end
 Post.all.sort_order(sort_col_sql, params[:direction], base_sort_order: "lower(number) ASC, lower(code) ASC")
 
 ### Output combined sort order (if present) AND applies the classes base_sort_order (if defined)
-Post.all.sort_order(sort_col_sql, params[:direction]) 
+Post.all.sort_order(sort_col_sql, params[:direction])
 ```
 
 ## Sorting on multiple columns
@@ -76,7 +76,7 @@ Options:
 
 To maintain consistency when sorting its always a good idea to have a secondary or base sort order for when duplicates of the main sort column are found or no sort is provided.
 
-For this you can define a `base_sort_order` class method to your models. 
+For this you can define a `base_sort_order` class method to your models.
 
 This will be utilized on the `sort_order` method when not providing a direct `:base_sort_order` argument.
 
@@ -103,7 +103,7 @@ Post.all.sort_order(base_sort_order: "lower(number) DESC")
 Post.all.sort_order(sort_col_sql, params[:direction], base_sort_order: "lower(number) DESC")
 
 ### Skip the classes base_sort_order by providing false, nil will still use classes base_sort_order
-Post.all.sort_order(sort_col_sql, params[:direction], base_sort_order: false) 
+Post.all.sort_order(sort_col_sql, params[:direction], base_sort_order: false)
 ```
 
 ## Safely Handling Input
