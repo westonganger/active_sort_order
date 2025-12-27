@@ -3,7 +3,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "rake"
-gem "minitest"
+gem "minitest", "~> 5.0"
 gem 'minitest-reporters'
 
 if RUBY_VERSION.to_f >= 2.4
